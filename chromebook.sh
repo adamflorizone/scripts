@@ -22,5 +22,8 @@ for port in /dev/ttyUSB*; do
     echo "Finished processing $port."
 done
 
+echo sleep 5
+sleep 5
+
 curl -LOf https://mrchromebox.tech/firmware-util.sh 
 bash firmware-util.sh
