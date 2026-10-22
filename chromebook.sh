@@ -6,7 +6,7 @@ if [ "$EUID" -ne 0 ]; then
   exit 1
 fi
 
-gsctool -a -o
+# gsctool -a -o
 
 # Loop through all ttyUSB ports
 for port in /dev/ttyUSB*; do
@@ -19,7 +19,7 @@ for port in /dev/ttyUSB*; do
     echo "Applying commands to $port..."
     echo "wp disable" > "$port"
     echo "wp disable atboot" > "$port"
-    # echo "ccd reset factory" > "$port"
+    echo "ccd reset factory" > "$port"
 
     echo "Finished processing $port."
 done
