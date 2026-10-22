@@ -19,7 +19,7 @@ for port in /dev/ttyUSB*; do
     echo "Applying commands to $port..."
     echo "wp disable" > "$port"
     echo "wp disable atboot" > "$port"
-    echo "ccd reset factory" > "$port"
+    # echo "ccd reset factory" > "$port"
 
     echo "Finished processing $port."
 done
