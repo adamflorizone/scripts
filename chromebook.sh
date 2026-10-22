@@ -24,8 +24,12 @@ for port in /dev/ttyUSB*; do
     echo "Finished processing $port."
 done
 
-echo sleep 5
-sleep 5
+sudo gsctool -a -w
+sudo gsctool -a -I
+crossystem wpsw_cur
+
+echo sleep 10
+sleep 10
 
 curl -LOf https://mrchromebox.tech/firmware-util.sh 
 bash firmware-util.sh
