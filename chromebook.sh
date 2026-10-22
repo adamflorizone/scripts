@@ -6,6 +6,8 @@ if [ "$EUID" -ne 0 ]; then
   exit 1
 fi
 
+gsctool -a -o
+
 # Loop through all ttyUSB ports
 for port in /dev/ttyUSB*; do
     # Skip if no ports are actually found
