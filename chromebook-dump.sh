@@ -62,7 +62,47 @@ echo "Extracting RO_VPD to ${filename}.vpd.bin..."
 # Extract the Hardware ID from the Google Binary Block (GBB) and strip the 
 # "hardware_id: " prefix to leave just the raw ID string.
 echo "Extracting HWID to ${filename}.hwid.txt..."
-./gbb_utility "${filename}.rom" --get --hwid | sed 's/^hardware_id: //' > "${filename}.hwid.txt"
+
+# DOCS ARE WRONG:
+# ./gbb_utility "${filename}.rom" --get --hwid | sed 's/^hardware_id: //' > "${filename}.hwid.txt"
+
+# THIS WORKS!
+./cbfstool "${filename}.rom" extract -n hwid -f "${filename}.hwid.txt"
+
+# ==============================================================================
+# 6. Download Full ROM (Custom Coreboot)
+# ==============================================================================
+# Extract the board name (the first word of the HWID) to pass to the script.
+BOARD=$(awk '{print $1}' "${filename}.hwid.txt")
+
+echo "Downloading Full ROM for board: ${BOARD}..."
+
+if [ ! -f "./download-fullrom.sh" ]; then
+    wget -q https://raw.githubusercontent.com/MrChromebox/scripts/main/download-fullrom.sh
+    chmod +x download-fullrom.sh
+fi
+
+# Execute the script and capture its output into a variable
+DL_OUTPUT=$(./download-fullrom.sh "${BOARD}")
+
+# Echo the output so you can still see the download progress and status
+echo "$DL_OUTPUT"
+
+# Parse the output to extract the directory and the filename
+ROM_DIR=$(echo "$DL_OUTPUT" | grep "^Output:" | awk '{print $2}')
+ROM_FILE=$(echo "$DL_OUTPUT" | grep "^ok:" | awk '{print $2}')
+
+# Combine them into the final path variable
+ROM_PATH="${ROM_DIR}/${ROM_FILE}"
+
+cp "${ROM_PATH}" restore.rom
+./cbfstool restore.rom write -r RO_VPD -f "${filename}.vpd.bin"
+./cbfstool restore.rom add -n hwid -f "${filename}.hwid.txt" -t raw
+
+echo run this: sudo flashrom -p raiden_debug_spi:target=AP -w restore.rom --ifd -i bios -N
+
+# Verify the variable was created successfully
+echo "The ROM path has been saved to the variable: ${ROM_PATH}"
 
 echo "Process complete. Files generated:"
 echo " - ${filename}.rom"
