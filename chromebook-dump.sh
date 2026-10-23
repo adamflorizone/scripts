@@ -99,7 +99,10 @@ cp "${ROM_PATH}" restore.rom
 ./cbfstool restore.rom write -r RO_VPD -f "${filename}.vpd.bin"
 ./cbfstool restore.rom add -n hwid -f "${filename}.hwid.txt" -t raw
 
-echo run this: sudo flashrom -p raiden_debug_spi:target=AP -w restore.rom --ifd -i bios -N
+echo run this: 
+echo     echo "ccd open" | sudo tee -a /dev/ttyUSB0 > /dev/null
+echo     sudo flashrom -p raiden_debug_spi:target=AP -w restore.rom --ifd -i bios -N
+
 
 # Verify the variable was created successfully
 echo "The ROM path has been saved to the variable: ${ROM_PATH}"
