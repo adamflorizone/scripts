@@ -8,10 +8,10 @@ set -e
 # ==============================================================================
 # Ensure the script is running as root, which is required for accessing 
 # /dev/ttyUSB0 and executing flashrom.
-if [ "$EUID" -ne 0 ]; then
-  echo "Elevating privileges..."
-  exec sudo "$0" "$@"
-fi
+#if [ "$EUID" -ne 0 ]; then
+#  echo "Elevating privileges..."
+#  exec sudo "$0" "$@"
+#fi
 
 # ==============================================================================
 # 2. Unlock Closed Case Debugging (CCD)
