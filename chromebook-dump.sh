@@ -102,8 +102,8 @@ cp "${ROM_PATH}" restore.rom
 ./cbfstool restore.rom add -n hwid -f "${filename}.hwid.txt" -t raw
 
 echo run this: 
-echo     echo "ccd open" | sudo tee -a "${DEVICE}" > /dev/null
-echo     sudo flashrom -p raiden_debug_spi:target=AP -w restore.rom --ifd -i bios -N
+echo     'echo "ccd open" | sudo tee -a "${DEVICE}" > /dev/null'
+echo     'sudo flashrom -p raiden_debug_spi:target=AP -w restore.rom --ifd -i bios -N'
 
 
 # Verify the variable was created successfully
