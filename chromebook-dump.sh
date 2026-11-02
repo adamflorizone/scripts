@@ -3,6 +3,8 @@
 # Exit immediately if a command fails
 set -e
 
+DEVICE="${1:-/dev/ttyUSB0}"
+
 # ==============================================================================
 # 1. Privilege Escalation
 # ==============================================================================
@@ -19,8 +21,8 @@ set -e
 # Send the 'ccd open' command to the Cr50/Ti50 security chip via the SuzyQable.
 # Note: If the device is locked, this will trigger a physical presence check 
 # requiring manual power button presses, which takes longer than 5 seconds.
-echo "Sending 'ccd open' command to /dev/ttyUSB0..."
-echo "ccd open" | tee -a /dev/ttyUSB0 > /dev/null
+echo "Sending 'ccd open' command to ${DEVICE}..."
+echo "ccd open" | tee -a "${DEVICE}" > /dev/null
 sleep 5
 
 # ==============================================================================
@@ -100,7 +102,7 @@ cp "${ROM_PATH}" restore.rom
 ./cbfstool restore.rom add -n hwid -f "${filename}.hwid.txt" -t raw
 
 echo run this: 
-echo     echo "ccd open" | sudo tee -a /dev/ttyUSB0 > /dev/null
+echo     echo "ccd open" | sudo tee -a "${DEVICE}" > /dev/null
 echo     sudo flashrom -p raiden_debug_spi:target=AP -w restore.rom --ifd -i bios -N
 
 
