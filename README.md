@@ -1,9 +1,9 @@
 # chromebook commands
 
-# Arch Linux permissions setup instructions
+# Arch Linux setup instructions
+```
 sudo pacman -Sy flashrom
 
-```
 echo 'SUBSYSTEM=="usb", ATTR{idVendor}=="18d1", MODE="0666"' | sudo tee /etc/udev/rules.d/99-raiden-debug.rules
 sudo udevadm control --reload-rules
 sudo udevadm trigger
