@@ -22,7 +22,7 @@ DEVICE="${1:-/dev/ttyUSB0}"
 # Note: If the device is locked, this will trigger a physical presence check 
 # requiring manual power button presses, which takes longer than 5 seconds.
 echo "Sending 'ccd open' command to ${DEVICE}..."
-echo "ccd open" | tee -a "${DEVICE}" > /dev/null
+echo "ccd open" > "${DEVICE}"
 sleep 5
 
 # ==============================================================================
@@ -102,8 +102,8 @@ cp "${ROM_PATH}" restore.rom
 ./cbfstool restore.rom add -n hwid -f "${filename}.hwid.txt" -t raw
 
 echo run this: 
-echo     'echo "ccd open" | sudo tee -a "${DEVICE}" > /dev/null'
-echo     'sudo flashrom -p raiden_debug_spi:target=AP -w restore.rom --ifd -i bios -N'
+echo     "echo \"ccd open\" > \"${DEVICE}\""
+echo     'flashrom -p raiden_debug_spi:target=AP -w restore.rom --ifd -i bios -N'
 
 
 # Verify the variable was created successfully
