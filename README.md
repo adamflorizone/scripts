@@ -20,3 +20,6 @@ sudo usermod -aG uucp $USER
 
 ### 2. script
 ![chromebook](./chromebook.png)
+
+# Install Alpine Linux
+<img width="288" height="288" alt="image" src="https://github.com/user-attachments/assets/6cb7fd4b-3916-4c43-a7c4-506aeeb3f08f" />
